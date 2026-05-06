@@ -1,67 +1,40 @@
 # delta-trade-risk-forge
 
-`delta-trade-risk-forge` packages a practical trading systems exercise in Zig. The emphasis is on deterministic behavior, a small public API, and examples that explain the tradeoffs.
+`delta-trade-risk-forge` explores trading systems with a small Zig codebase and local fixtures. The technical goal is to design a Zig verification harness for risk systems, covering graph analysis, node-edge fixtures, and failure-oriented tests.
 
-## How I Read Delta Trade Risk Forge
+## Use Case
 
-The useful thing to inspect here is how the same score rule is represented in code, metadata, and examples. If those three pieces disagree, the audit script should make the drift visible.
+The project exists to keep a narrow engineering decision visible and testable. For this repo, that decision is how spread pressure and portfolio drift should influence a review result.
 
-## Main Behaviors
+## Delta Trade Risk Forge Review Notes
 
-- Includes extended examples for fills, including `surge` and `degraded`.
-- Documents portfolio pressure tradeoffs in `docs/operations.md`.
-- Runs locally with a single verification command and no external credentials.
-- Stores project constants and verification metadata in `metadata/project.json`.
-- Adds a repository audit script that checks structure before running the language verifier.
+For a quick review, compare `spread pressure` with `spread pressure` before reading the middle cases.
 
-## Problem Shape
+## Highlights
 
-The goal is to capture the core behavior in code and make the surrounding assumptions obvious. A reader should be able to run the verifier, open the fixtures, and understand why each decision was made.
+- `fixtures/domain_review.csv` adds cases for spread pressure and fill risk.
+- `metadata/domain-review.json` records the same cases in structured form.
+- `config/review-profile.json` captures the read order and the two review questions.
+- `examples/delta-trade-risk-walkthrough.md` walks through the case spread.
+- The Zig code includes a review path for `spread pressure` and `spread pressure`.
+- `docs/field-notes.md` explains the strongest and weakest cases.
 
-## Repository Map
+## Code Layout
 
-- `src`: primary implementation
-- `fixtures`: compact golden scenarios
-- `examples`: expanded scenario set
-- `metadata`: project constants and verification metadata
-- `docs`: operations and extension notes
-- `scripts`: local verification and audit commands
+The fixture data drives the tests. The code stays thin, while `metadata/domain-review.json` and `config/review-profile.json` explain what each case is meant to protect.
 
-## Internal Model
+The Zig addition stays small enough to inspect in one sitting.
 
-The core is a scoring model over demand, capacity, latency, risk, and weight. That keeps order state, risk checks, and fills in one explicit decision path. The threshold is 163, with risk penalty 7, latency penalty 3, and weight bonus 2. The Zig version uses compile-time constants and native test blocks for fast local checks.
-
-## How To Run It
+## Run The Check
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1
 ```
 
-This runs the language-level build or test path against the compact fixture set.
+## Regression Path
 
-## Scenario Walkthrough
+The check exercises the source code and the review fixture. `stale` is the high score at 200; `baseline` is the low score at 99.
 
-`examples/extended_cases.csv` adds six named cases. I kept the names plain so failures are easy to read in a terminal: baseline, pressure, surge, degraded, recovery, and boundary.
+## Future Work
 
-## Validation
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/audit.ps1
-```
-
-The audit command checks repository structure and README constraints before it delegates to the verifier.
-
-## Known Edges
-
-This code is local-first. It makes no claim about deployed usage and avoids credentials, hosted state, and environment-specific setup.
-
-## Follow-Up Work
-
-- Add malformed input fixtures so the failure path is as visible as the happy path.
-- Split the scoring constants into a typed configuration object and validate it before use.
-- Add a comparison mode that shows how decisions change when one signal is adjusted.
-- Add one more trading systems fixture that focuses on a malformed or borderline input.
-
-## Run It Locally
-
-Install Zig and run the commands from the repository root. The project does not need credentials or a hosted service.
+The repository is intentionally scoped to local checks. I would expand it by adding adversarial fixtures before adding features.

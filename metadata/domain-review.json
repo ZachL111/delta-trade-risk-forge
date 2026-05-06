@@ -1,0 +1,73 @@
+{
+  "repo": "delta-trade-risk-forge",
+  "language": "Zig",
+  "category": "Trading systems",
+  "goal": "Design a Zig verification harness for risk systems, covering graph analysis, node-edge fixtures, and failure-oriented tests.",
+  "review_model": {
+    "terms": [
+      "spread pressure",
+      "fill risk",
+      "portfolio drift",
+      "quote width"
+    ],
+    "lanes": [
+      "ship",
+      "watch",
+      "hold"
+    ],
+    "score": "signal * 2 + slack + confidence - drag * 3",
+    "purpose": "surface the domain-specific cases that need the most careful review"
+  },
+  "cases": [
+    {
+      "name": "baseline",
+      "focus": "spread pressure",
+      "signal": 40,
+      "slack": 49,
+      "drag": 27,
+      "confidence": 51,
+      "score": 99,
+      "lane": "hold"
+    },
+    {
+      "name": "stress",
+      "focus": "fill risk",
+      "signal": 48,
+      "slack": 48,
+      "drag": 20,
+      "confidence": 46,
+      "score": 130,
+      "lane": "watch"
+    },
+    {
+      "name": "edge",
+      "focus": "portfolio drift",
+      "signal": 46,
+      "slack": 32,
+      "drag": 8,
+      "confidence": 70,
+      "score": 170,
+      "lane": "ship"
+    },
+    {
+      "name": "recovery",
+      "focus": "quote width",
+      "signal": 49,
+      "slack": 38,
+      "drag": 21,
+      "confidence": 51,
+      "score": 124,
+      "lane": "watch"
+    },
+    {
+      "name": "stale",
+      "focus": "spread pressure",
+      "signal": 67,
+      "slack": 25,
+      "drag": 10,
+      "confidence": 71,
+      "score": 200,
+      "lane": "ship"
+    }
+  ]
+}
