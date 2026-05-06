@@ -1,0 +1,17 @@
+{
+  "repo": "delta-trade-risk-forge",
+  "thresholds": {
+    "signal": 4,
+    "slack": 2,
+    "confidence": 1,
+    "drag": 2,
+    "ship": 156,
+    "watch": 103
+  },
+  "terms": [
+    "spread pressure",
+    "fill risk",
+    "portfolio drift",
+    "quote width"
+  ]
+}
